@@ -78,6 +78,13 @@ class PostgresqlMigrator(SchemaMigrator, PgM):
     def alter_change_column(self, table, column_name, field):
         """Support change columns."""
         context = super(PostgresqlMigrator, self).alter_change_column(table, column_name, field)
+        default_idx = None
+        for idx, item in enumerate(context._sql):
+            if 'DEFAULT' in item:
+                default_idx = idx
+        if default_idx:
+            context._sql = context._sql[0:default_idx-1]
+
         context._sql.insert(-1, 'TYPE')
         context._sql.insert(-1, ' ')
         return context
