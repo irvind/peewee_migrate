@@ -280,10 +280,11 @@ class Migrator(object):
     @get_model
     def rename_table(self, model, new_name):
         """Rename table in database."""
+        old_table_name = model._meta.table_name
         del self.orm[model._meta.table_name]
         model._meta.table_name = new_name
         self.orm[model._meta.table_name] = model
-        self.ops.append(self.migrator.rename_table(model._meta.table_name, new_name))
+        self.ops.append(self.migrator.rename_table(old_table_name, new_name))
         return model
 
     @get_model
