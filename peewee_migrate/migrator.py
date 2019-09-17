@@ -180,9 +180,9 @@ class Migrator(object):
             model._meta.add_field(name, field)
             self.ops.append(self.migrator.add_column(
                 model._meta.table_name, field.column_name, field))
-            if field.unique:
-                self.ops.append(self.migrator.add_index(
-                    model._meta.table_name, (field.column_name,), unique=True))
+            # if field.unique:
+            #     self.ops.append(self.migrator.add_index(
+            #         model._meta.table_name, (field.column_name,), unique=True))
         return model
 
     add_fields = add_columns
